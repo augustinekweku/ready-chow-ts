@@ -1,17 +1,23 @@
 import { Typography } from '@mui/material'
-import { useSession, signIn } from 'next-auth/react'
+import { useSession, signIn, SessionProvider } from 'next-auth/react'
+import { ReactElement } from 'react'
+import DefaultLayout from '../components/DefaultLayout'
 import { NextPageWithLayout } from '../helpers/types'
+import Featured from "../components/Featured"
 
 const Home: NextPageWithLayout = () => {
   const { data: session, status } = useSession()
+  console.log(session)
 
   return (
     <>
-      <h1>Hello world bjkjk kjbjkb kjkjkjj kjbkkkkjgkjgkjgjkgkj k jkjkjgjkgkbkhj</h1>
+      <Featured />
+      <Typography>Hello world bjkjk kjbjkb kjkjkjj kjbkkkkjgkjgkjgjkgkj k jkjkjgjkgkbkhj</Typography>
     </>
   )
 }
 
-Home.isAuth = true;
+
+
 
 export default Home;

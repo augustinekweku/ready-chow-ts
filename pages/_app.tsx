@@ -3,47 +3,54 @@ import { SessionProvider, useSession } from "next-auth/react";
 import { NextPageWithLayout } from "../helpers/types";
 import { useRouter } from "next/router";
 import DefaultLayout from "../components/DefaultLayout";
-import { responsiveFontSizes, ThemeProvider } from "@mui/material";
-import { createTheme } from '@mui/material/styles';
-import { Assistant } from '@next/font/google';
+import { createTheme, responsiveFontSizes, ThemeProvider } from '@mui/material/styles';
 import './global.css'
 
-
-const assistant = Assistant({
-  weight: ['300', '400', '500', '700'],
-  display: 'swap',
-  fallback: ['Helvetica', 'Arial', 'sans-serif'],
-});
-
-type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
-};
-
-
-// Create a theme instance.
 const theme = createTheme({
+
+  typography: {
+    fontFamily: ['Assistant', 'sans-serif'].join(","),
+  },
   palette: {
     primary: {
-      main: '#556cd6',
-    },
-    secondary: {
-      main: '#19857b',
+      main: "#0EA5E9",
+      // darker: "#22C55E",
     },
 
   },
-  typography: {
-    fontFamily: assistant.style.fontFamily,
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 768,
+      lg: 1200,
+      xl: 1536,
+    },
   },
 });
+
+
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
-  return (
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout ?? ((page) => page)
+  return getLayout(
     <SessionProvider>
       {Component.isAuth ? (
         <Auth>
           <Component {...pageProps} />
         </Auth>
       ) : (
-        <Component {...pageProps} />
+        <ThemeProvider theme={theme}>
+          <DefaultLayout>
+            <Component {...pageProps} />
+          </DefaultLayout>
+        </ThemeProvider>
+
       )}
     </SessionProvider>
   );
@@ -52,6 +59,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 const Auth = ({ children }: any) => {
   const { status } = useSession();
   const router = useRouter();
+  console.log("status", status)
 
   if (status === "loading") {
     return (
@@ -61,12 +69,7 @@ const Auth = ({ children }: any) => {
     );
   }
   if (status === "unauthenticated") {
-    router.push("/login");
-    return (
-      <div className="container font-weight-bold text-center">
-        <p className="mt-4">Loading</p>
-      </div>
-    );
+    router.push("/");
   }
   return (
     <ThemeProvider theme={theme}>

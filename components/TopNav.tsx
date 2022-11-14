@@ -21,7 +21,8 @@ import { Badge } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 // import { loadCart } from "../../redux/cartSlice";
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const OrderNowImgWrapper = styled.div`
   background: white;
@@ -47,12 +48,14 @@ const OrderNowNumber = styled.h4`
 `;
 
 const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Profile", "Account", "Dashboard"];
 const TopNav = () => {
+    const router = useRouter();
+
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const { data: session } = useSession();
-    console.log(session?.user?.name)
+    console.log(session)
 
 
     //   const quantity = useSelector((state) => state.cart.quantity);
@@ -219,7 +222,7 @@ const TopNav = () => {
                             <IconButton
                                 onClick={handleOpenUserMenu}
                                 sx={{ p: 0 }}
-                                className="d-none"
+                                className="d-non"
                             >
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                             </IconButton>
@@ -253,6 +256,14 @@ const TopNav = () => {
                                     <Typography textAlign="center">{setting}</Typography>
                                 </MenuItem>
                             ))}
+                            {session !== null && (
+                                <MenuItem onClick={() => {
+                                    signOut();
+                                }}>
+                                    <Typography textAlign="center">Logout</Typography>
+                                </MenuItem>)
+
+                            }
                         </Menu>
                     </Box>
                 </Toolbar>
