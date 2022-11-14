@@ -1,5 +1,4 @@
 import React, { ReactElement } from 'react'
-import DefaultLayout from '../../components/DefaultLayout'
 import { NextPageWithLayout } from '../../helpers/types'
 
 const AdminHome: NextPageWithLayout = () => {

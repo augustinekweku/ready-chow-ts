@@ -9,6 +9,8 @@ const Container = styled.div`
   padding: 50px 0;
 `;
 const ImageContainer = styled.div`
+margin: 0 auto;
+width: 350px;
   ${sm({ width: "100%", height: "auto", padding: "0 24px" })}
 `;
 
@@ -18,7 +20,7 @@ const Featured = () => {
     <Container>
       <Carousel showArrows={true} showStatus={false} showThumbs={false}>
         <ImageContainer>
-          <Image alt="" src="/img/pizza2.png" height="350" width="350" />
+          <Image alt="" src="/img/pizza2.png" height={350} width={350} />
         </ImageContainer>
         <p className="legend">Legend 1</p>
       </Carousel>

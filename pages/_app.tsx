@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import DefaultLayout from "../components/DefaultLayout";
 import { createTheme, responsiveFontSizes, ThemeProvider } from '@mui/material/styles';
 import './global.css'
+import { Provider } from "react-redux";
+import { store } from "../redux/store";
 
 const theme = createTheme({
 
@@ -39,20 +41,23 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? ((page) => page)
   return getLayout(
-    <SessionProvider>
-      {Component.isAuth ? (
-        <Auth>
-          <Component {...pageProps} />
-        </Auth>
-      ) : (
-        <ThemeProvider theme={theme}>
-          <DefaultLayout>
+    <Provider store={store}>
+      <SessionProvider>
+        {Component.isAuth ? (
+          <Auth>
             <Component {...pageProps} />
-          </DefaultLayout>
-        </ThemeProvider>
+          </Auth>
+        ) : (
+          <ThemeProvider theme={theme}>
+            <DefaultLayout>
+              <Component {...pageProps} />
+            </DefaultLayout>
+          </ThemeProvider>
 
-      )}
-    </SessionProvider>
+        )}
+      </SessionProvider>
+    </Provider>
+
   );
 }
 

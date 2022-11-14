@@ -23,6 +23,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useAppSelector } from "../redux/hooks";
+import { loadCart } from "../redux/cartSlice";
 
 const OrderNowImgWrapper = styled.div`
   background: white;
@@ -58,31 +60,31 @@ const TopNav = () => {
     console.log(session)
 
 
-    //   const quantity = useSelector((state) => state.cart.quantity);
+    const quantity = useAppSelector((state) => state.cart.quantity);
 
-    // const [stateCartQty, setStateCartQty] = useState(null);
-    // const dispatch = useDispatch();
+    const [stateCartQty, setStateCartQty] = useState(null);
+    const dispatch = useDispatch();
 
-    //   useEffect(() => {
-    //     console.log("setStateCartQty running?", stateCartQty);
-    //     if (typeof window !== "undefined") {
-    //       if (localStorage.getItem("CartQty")) {
-    //         var CartQty = JSON.parse(localStorage.getItem("CartQty"));
-    //         if (CartQty) {
-    //           var CartQty = JSON.parse(localStorage.getItem("CartQty"));
-    //           var cartBody = JSON.parse(localStorage.getItem("readyChowCart"));
-    //           var cartTotal = JSON.parse(localStorage.getItem("cartTotal"));
-    //           const cartObj = {
-    //             quantity: CartQty,
-    //             cart: cartBody,
-    //             total: cartTotal,
-    //           };
-    //           dispatch(loadCart(cartObj));
-    //           setStateCartQty(CartQty);
-    //         }
-    //       }
-    //     }
-    //   }, []);
+    useEffect(() => {
+        console.log("setStateCartQty running?", stateCartQty);
+        if (typeof window !== "undefined") {
+            if (localStorage.getItem("CartQty")) {
+                var CartQty = JSON.parse(localStorage.getItem("CartQty") as any);
+                if (CartQty) {
+                    var CartQty = JSON.parse(localStorage.getItem("CartQty") as string);
+                    var cartBody = JSON.parse(localStorage.getItem("readyChowCart") as string);
+                    var cartTotal = JSON.parse(localStorage.getItem("cartTotal") as string);
+                    const cartObj = {
+                        quantity: CartQty,
+                        cart: cartBody,
+                        total: cartTotal,
+                    };
+                    dispatch(loadCart(cartObj));
+                    setStateCartQty(CartQty);
+                }
+            }
+        }
+    }, []);
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -222,14 +224,14 @@ const TopNav = () => {
                             <IconButton
                                 onClick={handleOpenUserMenu}
                                 sx={{ p: 0 }}
-                                className="d-non"
+                                className="d-none"
                             >
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                             </IconButton>
                         </Tooltip>
                         <Link href="/cart" passHref>
                             <Badge
-                                badgeContent={0}
+                                badgeContent={quantity}
                                 sx={{ color: "white", cursor: "pointer" }}
                             >
                                 <LocalMallIcon sx={{ color: "white" }} />

@@ -1,23 +1,41 @@
 import { Typography } from '@mui/material'
 import { useSession, signIn, SessionProvider } from 'next-auth/react'
 import { ReactElement } from 'react'
-import DefaultLayout from '../components/DefaultLayout'
 import { NextPageWithLayout } from '../helpers/types'
 import Featured from "../components/Featured"
+import axios from 'axios'
+import ProductList from '../components/ProductList'
 
-const Home: NextPageWithLayout = () => {
+
+interface HomeProps {
+  productList: [];
+}
+
+const Home: NextPageWithLayout<HomeProps> = ({ productList }) => {
   const { data: session, status } = useSession()
   console.log(session)
 
   return (
     <>
       <Featured />
-      <Typography>Hello world bjkjk kjbjkb kjkjkjj kjbkkkkjgkjgkjgjkgkj k jkjkjgjkgkbkhj</Typography>
+      <ProductList productList={productList} />
     </>
   )
 }
 
+export const getServerSideProps = async () => {
+  const res = await axios.get(
+    "https://dull-gray-sparrow.cyclic.app/api/products"
+  );
+  console.log(res.data)
 
+  const products = res.data
+  return {
+    props: {
+      productList: products,
+    },
+  };
+};
 
 
 export default Home;
