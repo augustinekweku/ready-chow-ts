@@ -22,7 +22,7 @@ import styled from "styled-components";
 import Head from "next/head";
 import { mobile } from "../../responsive";
 import { useAppSelector } from "../../redux/hooks";
-import { decreaseCart, deleteProduct } from "../../redux/cartSlice";
+import { decreaseCart, deleteProduct, increaseCart } from "../../redux/cartSlice";
 import { CartArrayType } from "../../helpers/types";
 
 const CartContainer = styled.div``;
@@ -184,7 +184,7 @@ const Cart: FC = () => {
         let newTotal = 0;
         for (let index = 0; index < newArr.length; index++) {
             newTotal +=
-                parseInt(newArr[index].price) * parseInt(newArr[index].quantity);
+                newArr[index].price * newArr[index].quantity;
         }
         // dispatch(increaseCart(newArr));
         let newCartObj = {
