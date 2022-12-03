@@ -13,7 +13,6 @@ interface HomeProps {
 
 const Home: NextPageWithLayout<HomeProps> = ({ productList }) => {
   const { data: session, status } = useSession()
-  console.log(session)
 
   return (
     <>
@@ -27,7 +26,6 @@ export const getServerSideProps = async () => {
   const res = await axios.get(
     "https://dull-gray-sparrow.cyclic.app/api/products"
   );
-  console.log(res.data)
 
   const products = res.data
   return {

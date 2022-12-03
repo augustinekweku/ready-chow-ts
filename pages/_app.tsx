@@ -64,7 +64,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 const Auth = ({ children }: any) => {
   const { status } = useSession();
   const router = useRouter();
-  console.log("status", status)
 
   if (status === "loading") {
     return (

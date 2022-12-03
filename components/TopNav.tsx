@@ -57,7 +57,6 @@ const TopNav = () => {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const { data: session } = useSession();
-    console.log(session)
 
 
     const quantity = useAppSelector((state) => state.cart.quantity);
@@ -66,7 +65,7 @@ const TopNav = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log("setStateCartQty running?", stateCartQty);
+        // console.log("setStateCartQty running?", stateCartQty);
         if (typeof window !== "undefined") {
             if (localStorage.getItem("CartQty")) {
                 var CartQty = JSON.parse(localStorage.getItem("CartQty") as any);
@@ -74,6 +73,7 @@ const TopNav = () => {
                     var CartQty = JSON.parse(localStorage.getItem("CartQty") as string);
                     var cartBody = JSON.parse(localStorage.getItem("readyChowCart") as string);
                     var cartTotal = JSON.parse(localStorage.getItem("cartTotal") as string);
+
                     const cartObj = {
                         quantity: CartQty,
                         cart: cartBody,
