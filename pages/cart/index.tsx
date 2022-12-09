@@ -241,7 +241,6 @@ const Cart: FC = () => {
                                     {cartArray?.map((product, i) => (
                                         <SwipeableListItem
                                             key={i}
-                                            destructive={true}
                                             destructiveCallbackDelay={3000}
                                             trailingActions={trailingActions(product, i)}
                                         >
