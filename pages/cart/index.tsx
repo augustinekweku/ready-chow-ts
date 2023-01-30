@@ -108,6 +108,14 @@ const SwipeToDeleteContainer = styled.div`
   height: calc(100% - 16px);
   border-radius: 7px;
 `;
+const ProductPrice = styled.div`
+    text-align: center;
+`
+const CartTotalAmount = styled.div`
+    text-align: right;
+    font-size: 26px;
+    font-weight: 500;
+`
 
 
 const Cart: FC = () => {
@@ -118,6 +126,9 @@ const Cart: FC = () => {
     const cart = useAppSelector((state) => state.cart);
     const router = useRouter();
     const [cartArray, setCartArray] = useState<CartArrayType[]>([]);
+    if (typeof window !== "undefined") {
+        var localCartTotalAmount = JSON.parse(localStorage.getItem("cartTotal") || "");
+    }
 
     //   const createOrder = async (data) => {
     //     try {
@@ -261,7 +272,7 @@ const Cart: FC = () => {
                                                             <h5>{product?.title}</h5>
                                                         </ProductName>
                                                         <Extras>
-                                                            {product?.extras && (
+                                                            {product?.extras.length > 0 && (
                                                                 <>
                                                                     <span>
                                                                         <b>Extras</b>{" "}
@@ -297,12 +308,14 @@ const Cart: FC = () => {
                                                                 <AddIcon sx={{ color: "white" }} />
                                                             </QtyAction>
                                                         </ProductQuantity>
+                                                        <ProductPrice> GH¢{product?.price * product?.quantity}</ProductPrice>
                                                     </Grid>
                                                 </Grid>
                                             </ProductCard>
                                         </SwipeableListItem>
                                     ))}
                                 </SwipeableList>
+                                <CartTotalAmount>Total: GH¢ {localCartTotalAmount}</CartTotalAmount>
                             </>
                         ) : (
                             <>

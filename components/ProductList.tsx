@@ -1,8 +1,9 @@
 import { Grid, Typography } from "@mui/material";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import ProductCard from "./ProductCard";
 import styled from "styled-components";
 import Link from "next/link";
+import { DI } from "../pages";
 
 const Container = styled.div`
   display: flex;
@@ -26,6 +27,8 @@ interface ProductListProps {
   productList: [];
 }
 const ProductList: FC<ProductListProps> = ({ productList }) => {
+
+
   return (
     <Container>
       <div>

@@ -3,22 +3,24 @@ import { SessionProvider, useSession } from "next-auth/react";
 import { NextPageWithLayout } from "../helpers/types";
 import { useRouter } from "next/router";
 import DefaultLayout from "../components/DefaultLayout";
-import { createTheme, responsiveFontSizes, ThemeProvider } from '@mui/material/styles';
-import './global.css'
+import {
+  createTheme,
+  responsiveFontSizes,
+  ThemeProvider,
+} from "@mui/material/styles";
+import "./global.css";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
 
 const theme = createTheme({
-
   typography: {
-    fontFamily: ['Assistant', 'sans-serif'].join(","),
+    fontFamily: ["Assistant", "sans-serif"].join(","),
   },
   palette: {
     primary: {
       main: "#0EA5E9",
       // darker: "#22C55E",
     },
-
   },
   breakpoints: {
     values: {
@@ -31,15 +33,13 @@ const theme = createTheme({
   },
 });
 
-
-
 type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout
-}
+  Component: NextPageWithLayout;
+};
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   // Use the layout defined at the page level, if available
-  const getLayout = Component.getLayout ?? ((page) => page)
+  const getLayout = Component.getLayout ?? ((page) => page);
   return getLayout(
     <Provider store={store}>
       <SessionProvider>
@@ -53,11 +53,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
               <Component {...pageProps} />
             </DefaultLayout>
           </ThemeProvider>
-
         )}
       </SessionProvider>
     </Provider>
-
   );
 }
 
@@ -79,5 +77,5 @@ const Auth = ({ children }: any) => {
     <ThemeProvider theme={theme}>
       <DefaultLayout>{children}</DefaultLayout>
     </ThemeProvider>
-  )
+  );
 };
